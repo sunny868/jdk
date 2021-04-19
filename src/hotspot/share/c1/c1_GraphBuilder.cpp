@@ -2041,6 +2041,15 @@ void GraphBuilder::invoke(Bytecodes::Code code) {
         (code == Bytecodes::_invokevirtual && target->is_final_method()) ||
         code == Bytecodes::_invokedynamic) {
       ciMethod* inline_target = (cha_monomorphic_target != NULL) ? cha_monomorphic_target : target;
+
+      // We should not inline java.nio.Buffer.checkIndex if InlineNioCheckIndex is disabled
+      if (!InlineNIOCheckIndex &&
+          holder->is_instance_klass() &&
+          holder->as_instance_klass() == Compilation::current()->env()->nio_Buffer_klass() &&
+          inline_target->name() == ciSymbols::checkIndex_name()) {
+        return;
+      }
+
       // static binding => check if callee is ok
       bool success = try_inline(inline_target, (cha_monomorphic_target != NULL) || (exact_target != NULL), false, code, better_receiver);
 
