@@ -2041,7 +2041,6 @@ void GraphBuilder::invoke(Bytecodes::Code code) {
         (code == Bytecodes::_invokevirtual && target->is_final_method()) ||
         code == Bytecodes::_invokedynamic) {
       ciMethod* inline_target = (cha_monomorphic_target != NULL) ? cha_monomorphic_target : target;
-
       // static binding => check if callee is ok
       bool success = try_inline(inline_target, (cha_monomorphic_target != NULL) || (exact_target != NULL), false, code, better_receiver);
 
