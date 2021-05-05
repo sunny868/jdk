@@ -5734,7 +5734,7 @@ void TypeAryKlassPtr::dump2( Dict & d, uint depth, outputStream *st ) const {
   _elem->dump2(d, depth, st);
   st->print("[");
   st->print("]");
-  
+
   switch( _ptr ) {
   case Constant:
     st->print("precise ");

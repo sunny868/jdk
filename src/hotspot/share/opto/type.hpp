@@ -112,7 +112,7 @@ public:
     KlassPtr,                   // Klass pointers
     InstKlassPtr,
     AryKlassPtr,
-    
+
     Function,                   // Function signature
     Abio,                       // Abstract I/O
     Return_Address,             // Subroutine return address
@@ -1426,7 +1426,7 @@ public:
   virtual intptr_t get_con() const;
 
   virtual const TypeKlassPtr* with_offset(intptr_t offset) const { ShouldNotReachHere(); return NULL; }
-  
+
 #ifndef PRODUCT
   virtual void dump2( Dict &d, uint depth, outputStream *st ) const; // Specialized per-Type dumping
 #endif
@@ -1438,9 +1438,9 @@ class TypeInstKlassPtr : public TypeKlassPtr {
   TypeInstKlassPtr(PTR ptr, ciKlass* klass, int offset)
     : TypeKlassPtr(InstKlassPtr, ptr, klass, offset) {
   }
-  
+
   virtual bool must_be_exact() const;
-  
+
 public:
   // Instance klass ignoring any interface
   ciInstanceKlass* instance_klass() const { return klass()->as_instance_klass();     }
@@ -1488,9 +1488,9 @@ public:
   static const TypeAryKlassPtr *make(PTR ptr, ciKlass* k, int offset);
   static const TypeAryKlassPtr *make(PTR ptr, const Type *elem, ciKlass* k, int offset);
   static const TypeAryKlassPtr* make(ciKlass* klass);
-  
+
   const Type *elem() const { return _elem; }
-  
+
   virtual bool eq(const Type *t) const;
   virtual int hash() const;             // Type specific hashing
 
@@ -1506,7 +1506,7 @@ public:
   virtual const Type    *xdual() const;      // Compute dual right now.
 
   virtual const TypeKlassPtr* with_offset(intptr_t offset) const;
-  
+
   virtual bool empty(void) const {
     return TypeKlassPtr::empty() || _elem->empty();
   }
