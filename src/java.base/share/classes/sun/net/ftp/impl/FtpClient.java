@@ -48,7 +48,6 @@ import sun.net.ftp.*;
 import sun.util.logging.PlatformLogger;
 
 
-@SuppressWarnings("removal")
 public class FtpClient extends sun.net.ftp.FtpClient {
 
     private static int defaultSoTimeout;
@@ -111,16 +110,13 @@ public class FtpClient extends sun.net.ftp.FtpClient {
 
     static {
         final int vals[] = {0, 0};
-        final String encs[] = {null};
-
-        AccessController.doPrivileged(
-                new PrivilegedAction<Object>() {
-
-                    public Object run() {
+        @SuppressWarnings("removal")
+        final String enc = AccessController.doPrivileged(
+                new PrivilegedAction<String>() {
+                    public String run() {
                         vals[0] = Integer.getInteger("sun.net.client.defaultReadTimeout", 300_000).intValue();
                         vals[1] = Integer.getInteger("sun.net.client.defaultConnectTimeout", 300_000).intValue();
-                        encs[0] = System.getProperty("file.encoding", "ISO8859_1");
-                        return null;
+                        return System.getProperty("file.encoding", "ISO8859_1");
                     }
                 });
         if (vals[0] == 0) {
@@ -135,7 +131,7 @@ public class FtpClient extends sun.net.ftp.FtpClient {
             defaultConnectTimeout = vals[1];
         }
 
-        encoding = encs[0];
+        encoding = enc;
         try {
             if (!isASCIISuperset(encoding)) {
                 encoding = "ISO8859_1";
@@ -551,6 +547,7 @@ public class FtpClient extends sun.net.ftp.FtpClient {
      * @return the connected <code>Socket</code>
      * @throws IOException if the connection was unsuccessful.
      */
+    @SuppressWarnings("removal")
     private Socket openPassiveDataConnection(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
         String serverAnswer;
         int port;
@@ -921,6 +918,7 @@ public class FtpClient extends sun.net.ftp.FtpClient {
         in = new BufferedInputStream(server.getInputStream());
     }
 
+    @SuppressWarnings("removal")
     private Socket doConnect(InetSocketAddress dest, int timeout) throws IOException {
         Socket s;
         if (proxy != null) {
