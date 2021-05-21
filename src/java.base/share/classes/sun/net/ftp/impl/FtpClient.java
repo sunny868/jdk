@@ -547,7 +547,6 @@ public class FtpClient extends sun.net.ftp.FtpClient {
      * @return the connected <code>Socket</code>
      * @throws IOException if the connection was unsuccessful.
      */
-    @SuppressWarnings("removal")
     private Socket openPassiveDataConnection(String cmd) throws sun.net.ftp.FtpProtocolException, IOException {
         String serverAnswer;
         int port;
@@ -629,13 +628,10 @@ public class FtpClient extends sun.net.ftp.FtpClient {
         Socket s;
         if (proxy != null) {
             if (proxy.type() == Proxy.Type.SOCKS) {
-                s = AccessController.doPrivileged(
-                        new PrivilegedAction<Socket>() {
-
-                            public Socket run() {
-                                return new Socket(proxy);
-                            }
-                        });
+                PrivilegedAction<Socket> pa = () -> new Socket(proxy);
+                @SuppressWarnings("removal")
+                var tmp = AccessController.doPrivileged(pa);
+                s = tmp;
             } else {
                 s = new Socket(Proxy.NO_PROXY);
             }
@@ -643,13 +639,9 @@ public class FtpClient extends sun.net.ftp.FtpClient {
             s = new Socket();
         }
 
-        InetAddress serverAddress = AccessController.doPrivileged(
-                new PrivilegedAction<InetAddress>() {
-                    @Override
-                    public InetAddress run() {
-                        return server.getLocalAddress();
-                    }
-                });
+        PrivilegedAction<InetAddress> pa = () -> server.getLocalAddress();
+        @SuppressWarnings("removal")
+        InetAddress serverAddress = AccessController.doPrivileged(pa);
 
         // Bind the socket to the same address as the control channel. This
         // is needed in case of multi-homed systems.
@@ -918,18 +910,14 @@ public class FtpClient extends sun.net.ftp.FtpClient {
         in = new BufferedInputStream(server.getInputStream());
     }
 
-    @SuppressWarnings("removal")
     private Socket doConnect(InetSocketAddress dest, int timeout) throws IOException {
         Socket s;
         if (proxy != null) {
             if (proxy.type() == Proxy.Type.SOCKS) {
-                s = AccessController.doPrivileged(
-                        new PrivilegedAction<Socket>() {
-
-                            public Socket run() {
-                                return new Socket(proxy);
-                            }
-                        });
+                PrivilegedAction<Socket> pa = () -> new Socket(proxy);
+                @SuppressWarnings("removal")
+                var tmp = AccessController.doPrivileged(pa);
+                s = tmp;
             } else {
                 s = new Socket(Proxy.NO_PROXY);
             }
