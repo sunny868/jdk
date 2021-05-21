@@ -86,7 +86,7 @@ final public class AccessBridge {
     }
 
     @SuppressWarnings("removal")
-    private static void initStatis() {
+    private static void initStatic() {
         // Load the appropriate DLLs
         boolean is32on64 = false;
         if (System.getProperty("os.arch").equals("x86")) {
