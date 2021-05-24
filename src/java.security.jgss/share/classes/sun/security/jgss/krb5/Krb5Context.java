@@ -706,6 +706,7 @@ class Krb5Context implements GSSContextSpi {
                                     tgt);
                         }
                         if (GSSUtil.useSubjectCredsOnly(caller)) {
+                            @SuppressWarnings("removal")
                             final Subject subject =
                                 AccessController.doPrivileged(
                                 new java.security.PrivilegedAction<Subject>() {
@@ -724,7 +725,8 @@ class Krb5Context implements GSSContextSpi {
                                  */
                                 final KerberosTicket kt =
                                         Krb5Util.credsToTicket(serviceCreds);
-                                AccessController.doPrivileged (
+                                @SuppressWarnings("removal")
+                                var dummy = AccessController.doPrivileged (
                                     new java.security.PrivilegedAction<Void>() {
                                       public Void run() {
                                         subject.getPrivateCredentials().add(kt);
