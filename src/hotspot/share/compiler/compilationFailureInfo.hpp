@@ -41,7 +41,7 @@ class CompilationFailureInfo : public CHeapObj<mtCompiler> {
   const double _elapsed_seconds;
   const int _compile_id;
 public:
-  CompilationFailureInfo(const char* failure_reason);
+  CompilationFailureInfo(const char* failure_reason, int compile_id);
   ~CompilationFailureInfo();
   void print_on(outputStream* st) const;
 

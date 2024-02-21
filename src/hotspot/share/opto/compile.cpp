@@ -4393,7 +4393,7 @@ void Compile::record_failure(const char* reason) {
     // Record the first failure reason.
     _failure_reason = reason;
     if (CaptureBailoutInformation) {
-      _first_failure_details = new CompilationFailureInfo(reason);
+      _first_failure_details = new CompilationFailureInfo(reason, compile_id());
     }
   }
 

@@ -652,7 +652,7 @@ void Compilation::bailout(const char* msg) {
     if (PrintCompilation || PrintBailouts) tty->print_cr("compilation bailout: %s", msg);
     _bailout_msg = msg;
     if (CaptureBailoutInformation) {
-      _first_failure_details = new CompilationFailureInfo(msg);
+      _first_failure_details = new CompilationFailureInfo(msg, ciEnv::current()->task()->compile_id());
     }
   }
 }
